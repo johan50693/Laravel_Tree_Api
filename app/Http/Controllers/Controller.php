@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 
-/*
- * @OA\Info(
- *      version="1.0.0",
- *      title="Tree API",
- *      description="Tree Nodes Management API",
- *      @OA\Contact(
- *          email="admin@example.com"
- *      )
- * )
- */
+#[OA\Info(
+    version: "1.0.0",
+    title: "Tree API",
+    description: "Tree Nodes Management API",
+    contact: new OA\Contact(email: "admin@example.com")
+)]
+#[OA\Server(
+    url: L5_SWAGGER_CONST_HOST,
+    description: "API Server"
+)]
 abstract class Controller
 {
     //

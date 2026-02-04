@@ -1,0 +1,186 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Tree API",
+        "description": "Tree Nodes Management API",
+        "contact": {
+            "email": "admin@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/nodes": {
+            "post": {
+                "tags": [
+                    "Nodes"
+                ],
+                "summary": "Create new node",
+                "description": "Returns node data",
+                "operationId": "storeNode",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "parent": {
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/nodes/parents": {
+            "get": {
+                "tags": [
+                    "Nodes"
+                ],
+                "summary": "List parent nodes",
+                "description": "Returns list of root nodes",
+                "operationId": "getParents",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "Language code (ISO 639-1)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    },
+                    {
+                        "name": "timezone",
+                        "in": "query",
+                        "description": "Timezone for dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "UTC"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/nodes/{id}/children": {
+            "get": {
+                "tags": [
+                    "Nodes"
+                ],
+                "summary": "List children nodes",
+                "description": "Returns list of children nodes",
+                "operationId": "getChildren",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Node ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "depth",
+                        "in": "query",
+                        "description": "Depth of children",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "Language code (ISO 639-1)",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "timezone",
+                        "in": "query",
+                        "description": "Timezone",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Node not found"
+                    }
+                }
+            }
+        },
+        "/api/nodes/{id}": {
+            "delete": {
+                "tags": [
+                    "Nodes"
+                ],
+                "summary": "Delete node",
+                "description": "Deletes a node if logic is met",
+                "operationId": "deleteNode",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Node ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Node has children"
+                    },
+                    "404": {
+                        "description": "Node not found"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Nodes",
+            "description": "Nodes"
+        }
+    ]
+}
